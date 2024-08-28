@@ -17,18 +17,30 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping("/save")
+    @PostMapping(
+            path="/save"
+    )
     public String saveCustomer(@RequestBody CustomerDTO customerDTO){
         customerService.saveCustomer(customerDTO);
         System.out.println(customerDTO.getCustomerAddress());
        return customerDTO.getCustomerName();
     }
-    @PutMapping("/update")
+    @PutMapping(path=
+            "/update"
+    )
     public String updateCustomer(@RequestBody CustomerUpdateDTO customerUpdateDTO){
         customerService.updateCustomer(customerUpdateDTO);
     return "updated";
     }
 
+    @GetMapping(
+            path="/get-by-id",
+            params = "id"
+    )
+    public CustomerDTO getCustomerById(int id){
+        CustomerDTO customerDTO= customerService.getCustomerById(id);
+        return customerDTO;
+    }
 
 
 
