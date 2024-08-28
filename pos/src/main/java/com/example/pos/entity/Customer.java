@@ -20,7 +20,7 @@ import jakarta.persistence.Table;
         @Column(name = "customer_address",length = 255)
         private String customerAddress;
 
-        @Column(name = "contact_number",length = 10)
+        @Column(name = "contact_number",length = 15)
         private String contactNumber;
 
         @Column(name = "customerSalary")

@@ -1,6 +1,7 @@
 package com.example.pos.service.impl;
 
 import com.example.pos.dto.CustomerDTO;
+import com.example.pos.dto.request.CustomerUpdateDTO;
 import com.example.pos.entity.Customer;
 import com.example.pos.repository.CustomerRepo;
 import com.example.pos.service.CustomerService;
@@ -28,4 +29,21 @@ public class CustomerServiceIMPL implements CustomerService {
         customerRepo.save(customer);
         return null;
     }
+
+    @Override
+    public String updateCustomer(CustomerUpdateDTO customerUpdateDTO) {
+        if(customerRepo.existsById(customerUpdateDTO.getCustomerId())){
+            Customer customer = customerRepo.getReferenceById(customerUpdateDTO.getCustomerId());
+            customer.setCustomerName(customerUpdateDTO.getCustomerName());
+            customer.setCustomerAddress(customerUpdateDTO.getCustomerAddress());
+            customer.setCustomerSalary(customerUpdateDTO.getCustomerSalary());
+            customerRepo.save(customer);
+        }else {
+            throw new RuntimeException("no data found");
+        }
+        return customerUpdateDTO.getCustomerName()+"updated successfull";
+    }
+
+
+
 }
