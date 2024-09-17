@@ -8,6 +8,9 @@ import com.example.pos.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CustomerServiceIMPL implements CustomerService {
 
@@ -65,5 +68,25 @@ public class CustomerServiceIMPL implements CustomerService {
 
     }
 
+    @Override
+    public List<CustomerDTO> getAllCustomers() {
+        List<Customer>getAllCustomers = customerRepo.findAll();
+        List<CustomerDTO>customerDTOList= new ArrayList<>();
+        for (Customer customer:getAllCustomers) {
+            CustomerDTO  customerDTO= new CustomerDTO(
+               customer.getCustomerId(),
+               customer.getCustomerName(),
+               customer.getCustomerAddress(),
+               customer.getContactNumber(),
+               customer.getCustomerSalary(),
+               customer.getNic(),
+               customer.isActive()
+            );
+            customerDTOList.add(customerDTO);
+        }
+        return customerDTOList;
+        }
 
-}
+    }
+
+
