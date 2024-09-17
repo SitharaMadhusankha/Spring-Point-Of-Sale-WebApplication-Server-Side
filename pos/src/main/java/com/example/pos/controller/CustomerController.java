@@ -29,8 +29,9 @@ public class CustomerController {
             "/update"
     )
     public String updateCustomer(@RequestBody CustomerUpdateDTO customerUpdateDTO){
-        customerService.updateCustomer(customerUpdateDTO);
-    return "updated";
+        String message=customerService.updateCustomer(customerUpdateDTO);
+
+    return message;
     }
 
     @GetMapping(

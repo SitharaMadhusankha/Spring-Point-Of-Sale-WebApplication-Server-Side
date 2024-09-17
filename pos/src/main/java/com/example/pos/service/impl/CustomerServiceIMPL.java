@@ -41,7 +41,7 @@ public class CustomerServiceIMPL implements CustomerService {
         }else {
             throw new RuntimeException("no data found");
         }
-        return customerUpdateDTO.getCustomerName()+"updated successfull";
+        return customerUpdateDTO.getCustomerName()+"  updated successfull";
     }
 
     @Override
