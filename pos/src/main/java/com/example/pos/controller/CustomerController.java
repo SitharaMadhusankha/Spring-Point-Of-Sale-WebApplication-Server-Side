@@ -61,4 +61,12 @@ public class CustomerController {
         return deleted;
     }
 
+    @GetMapping(
+            path="get-all-customers-by-active-state/{status}"
+    )
+    public List<CustomerDTO> getAllCustomersByActiveState(@PathVariable boolean status){
+        List<CustomerDTO> getAllCustomers= customerService.getAllCustomersByActiveState(status);
+        return getAllCustomers;
+    }
+
 }
