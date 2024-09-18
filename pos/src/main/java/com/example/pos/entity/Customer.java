@@ -1,17 +1,15 @@
 package com.example.pos.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 
-    @Entity
+@Entity
     @Table(name = "customer")
     public class Customer {
 
         @Id
         @Column(name = "customer_id",length = 45)
+        @GeneratedValue(strategy = GenerationType.AUTO)
         private int customerId;
 
         @Column(name = "customer_name", length = 100,nullable = false)
@@ -23,7 +21,7 @@ import jakarta.persistence.Table;
         @Column(name = "contact_number",length = 15)
         private String contactNumber;
 
-        @Column(name = "customerSalary")
+        @Column(name = "customer_Salary",length = 255)
         private double customerSalary;
 
         @Column(name = "nic")

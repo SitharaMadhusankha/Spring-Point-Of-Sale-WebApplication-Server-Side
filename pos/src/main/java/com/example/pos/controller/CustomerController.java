@@ -5,11 +5,10 @@ import com.example.pos.dto.CustomerDTO;
 
 import com.example.pos.dto.request.CustomerUpdateDTO;
 import com.example.pos.service.CustomerService;
-import com.example.pos.service.impl.CustomerServiceIMPL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RestController
@@ -54,6 +53,12 @@ public class CustomerController {
         return allCustomers ;
     }
 
-
+    @DeleteMapping(
+            path = "delete-customer/{id}"
+    )
+    public String deleteCustomer(@PathVariable int id){
+        String deleted =customerService.deleteCustomer(id);
+        return deleted;
+    }
 
 }

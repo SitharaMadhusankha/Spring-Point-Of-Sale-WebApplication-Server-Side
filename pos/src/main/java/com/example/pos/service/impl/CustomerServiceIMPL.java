@@ -87,6 +87,18 @@ public class CustomerServiceIMPL implements CustomerService {
         return customerDTOList;
         }
 
+    @Override
+    public String deleteCustomer(int id) {
+        if(customerRepo.existsById(id)){
+            customerRepo.deleteById(id);
+            return "deleted successfully"+id;
+        }else{
+            throw new RuntimeException("no customer found in that id");
+        }
+
     }
+
+
+}
 
 
