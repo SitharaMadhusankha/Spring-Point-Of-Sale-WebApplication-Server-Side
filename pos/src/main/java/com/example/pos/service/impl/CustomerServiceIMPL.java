@@ -20,13 +20,13 @@ public class CustomerServiceIMPL implements CustomerService {
     @Override
     public String saveCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer(
-            customerDTO.getCustomerId(),
-            customerDTO.getCustomerName(),
-            customerDTO.getCustomerAddress(),
-            customerDTO.getContactNumber(),
-            customerDTO.getCustomerSalary(),
-            customerDTO.getNic(),
-            customerDTO.isActive()
+                customerDTO.getCustomerId(),
+                customerDTO.getCustomerName(),
+                customerDTO.getCustomerAddress(),
+                customerDTO.getContactNumber(),
+                customerDTO.getCustomerSalary(),
+                customerDTO.getNic(),
+                customerDTO.isActive()
         );
 
         customerRepo.save(customer);
@@ -35,21 +35,21 @@ public class CustomerServiceIMPL implements CustomerService {
 
     @Override
     public String updateCustomer(CustomerUpdateDTO customerUpdateDTO) {
-        if(customerRepo.existsById(customerUpdateDTO.getCustomerId())){
+        if (customerRepo.existsById(customerUpdateDTO.getCustomerId())) {
             Customer customer = customerRepo.getReferenceById(customerUpdateDTO.getCustomerId());
             customer.setCustomerName(customerUpdateDTO.getCustomerName());
             customer.setCustomerAddress(customerUpdateDTO.getCustomerAddress());
             customer.setCustomerSalary(customerUpdateDTO.getCustomerSalary());
             customerRepo.save(customer);
-        }else {
+        } else {
             throw new RuntimeException("no data found");
         }
-        return customerUpdateDTO.getCustomerName()+"  updated successfull";
+        return customerUpdateDTO.getCustomerName() + "  updated successfull";
     }
 
     @Override
     public CustomerDTO getCustomerById(int id) {
-        if(customerRepo.existsById(id)){
+        if (customerRepo.existsById(id)) {
             Customer customer = customerRepo.getReferenceById(id);
             CustomerDTO customerDTO = new CustomerDTO(
                     customer.getCustomerId(),
@@ -61,8 +61,7 @@ public class CustomerServiceIMPL implements CustomerService {
                     customer.isActive()
             );
             return customerDTO;
-        }
-        else{
+        } else {
             throw new RuntimeException("No customer");
         }
 
@@ -70,29 +69,29 @@ public class CustomerServiceIMPL implements CustomerService {
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
-        List<Customer>getAllCustomers = customerRepo.findAll();
-        List<CustomerDTO>customerDTOList= new ArrayList<>();
-        for (Customer customer:getAllCustomers) {
-            CustomerDTO  customerDTO= new CustomerDTO(
-               customer.getCustomerId(),
-               customer.getCustomerName(),
-               customer.getCustomerAddress(),
-               customer.getContactNumber(),
-               customer.getCustomerSalary(),
-               customer.getNic(),
-               customer.isActive()
+        List<Customer> getAllCustomers = customerRepo.findAll();
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
+        for (Customer customer : getAllCustomers) {
+            CustomerDTO customerDTO = new CustomerDTO(
+                    customer.getCustomerId(),
+                    customer.getCustomerName(),
+                    customer.getCustomerAddress(),
+                    customer.getContactNumber(),
+                    customer.getCustomerSalary(),
+                    customer.getNic(),
+                    customer.isActive()
             );
             customerDTOList.add(customerDTO);
         }
         return customerDTOList;
-        }
+    }
 
     @Override
     public String deleteCustomer(int id) {
-        if(customerRepo.existsById(id)){
+        if (customerRepo.existsById(id)) {
             customerRepo.deleteById(id);
-            return "deleted successfully"+id;
-        }else{
+            return "deleted successfully" + id;
+        } else {
             throw new RuntimeException("no customer found in that id");
         }
 
@@ -100,11 +99,11 @@ public class CustomerServiceIMPL implements CustomerService {
 
     @Override
     public List<CustomerDTO> getAllCustomersByActiveState(boolean status) {
-        List<Customer>getAllCustomers = customerRepo.findAllByActiveEquals(status);
+        List<Customer> getAllCustomers = customerRepo.findAllByActiveEquals(status);
 
-        List<CustomerDTO>customerDTOList= new ArrayList<>();
-        for (Customer customer:getAllCustomers) {
-            CustomerDTO  customerDTO= new CustomerDTO(
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
+        for (Customer customer : getAllCustomers) {
+            CustomerDTO customerDTO = new CustomerDTO(
                     customer.getCustomerId(),
                     customer.getCustomerName(),
                     customer.getCustomerAddress(),
