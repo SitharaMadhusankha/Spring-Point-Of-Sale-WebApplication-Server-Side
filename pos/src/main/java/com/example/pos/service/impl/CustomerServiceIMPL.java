@@ -3,6 +3,7 @@ package com.example.pos.service.impl;
 import com.example.pos.dto.CustomerDTO;
 import com.example.pos.dto.request.CustomerUpdateDTO;
 import com.example.pos.entity.Customer;
+import com.example.pos.exception.NotFoundException;
 import com.example.pos.repository.CustomerRepo;
 import com.example.pos.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +70,8 @@ public class CustomerServiceIMPL implements CustomerService {
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
-        if(getAllCustomers().size()>0){
-        List<Customer> getAllCustomers = customerRepo.findAll();
+        List<Customer> getAllCustomers=customerRepo.findAll();
+        if(getAllCustomers.size()>0){
         List<CustomerDTO> customerDTOList = new ArrayList<>();
         for (Customer customer : getAllCustomers) {
             CustomerDTO customerDTO = new CustomerDTO(
@@ -85,9 +86,9 @@ public class CustomerServiceIMPL implements CustomerService {
             customerDTOList.add(customerDTO);
         }
         return customerDTOList;
-        }else{
-            throw new RuntimeException("not found");
-        }
+      }else{
+            throw new NotFoundException("Not Customer found");
+       }
     }
 
     @Override
