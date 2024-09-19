@@ -77,12 +77,13 @@ public class ItemServiceIMPL implements ItemService {
     @Override
     public PaginatedIResponseItemDTO getItemByActiveStatusWithPaginated(boolean activeStatus, int page, int size) {
         Page<Item> items =itemRepo.findAllByActiveStateEquals(activeStatus, PageRequest.of(page,size));
+        int count =itemRepo.countAllByActiveStateEquals(activeStatus);
         if(items.getSize()<1){
             throw new NotFoundException("No Data");
         }
         PaginatedIResponseItemDTO paginatedIResponseItemDTO = new PaginatedIResponseItemDTO(
             itemMapper.ListDTOToPage(items),
-                2
+            count
         );
 
         return paginatedIResponseItemDTO;

@@ -7,6 +7,7 @@ import com.example.pos.dto.respones.ItemGetResponesDTO;
 import com.example.pos.service.ItemService;
 import com.example.pos.service.impl.ItemServiceIMPL;
 import com.example.pos.util.StandardResponse;
+import jakarta.validation.constraints.Max;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +63,7 @@ public class ItemController {
     public ResponseEntity<StandardResponse> getItemsByActiveStatus(
             @RequestParam(value = "activeStatus") boolean activeStatus,
             @RequestParam(value = "page") int page,
-            @RequestParam(value = "size") int size
+            @RequestParam(value = "size") @Max(10) int size
     ) {
         //List<ItemGetResponesDTO> itemDTOS = itemService.getItemByActiveStatus(activeStatus,page,size);
         PaginatedIResponseItemDTO paginatedIResponseItemDTO = itemService.getItemByActiveStatusWithPaginated(activeStatus,page,size);
