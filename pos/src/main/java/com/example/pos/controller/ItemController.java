@@ -1,6 +1,7 @@
 package com.example.pos.controller;
 
 import com.example.pos.dto.CustomerDTO;
+import com.example.pos.dto.paginated.PaginatedIResponseItemDTO;
 import com.example.pos.dto.request.ItemSaveRequestDTO;
 import com.example.pos.dto.respones.ItemGetResponesDTO;
 import com.example.pos.service.ItemService;
@@ -52,6 +53,23 @@ public class ItemController {
     public List<ItemGetResponesDTO> getItemByNameAndStatusByMapstruct(@RequestParam String name) {
         List<ItemGetResponesDTO> itemDTOS = itemService.getItemByNameAndStatusByMapstruct(name);
         return itemDTOS;
+    }
+
+    @GetMapping(
+            path = "/get-all-item-by-status",
+            params = {"activeStatus","page","size"}
+    )
+    public ResponseEntity<StandardResponse> getItemsByActiveStatus(
+            @RequestParam(value = "activeStatus") boolean activeStatus,
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size
+    ) {
+        //List<ItemGetResponesDTO> itemDTOS = itemService.getItemByActiveStatus(activeStatus,page,size);
+        PaginatedIResponseItemDTO paginatedIResponseItemDTO = itemService.getItemByActiveStatusWithPaginated(activeStatus,page,size);
+        return  new ResponseEntity<StandardResponse>(
+                new StandardResponse(200, "success", paginatedIResponseItemDTO ),
+                HttpStatus.CREATED
+        );
     }
 
 }
