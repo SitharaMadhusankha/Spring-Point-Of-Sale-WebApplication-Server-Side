@@ -69,6 +69,7 @@ public class CustomerServiceIMPL implements CustomerService {
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
+        if(getAllCustomers().size()>0){
         List<Customer> getAllCustomers = customerRepo.findAll();
         List<CustomerDTO> customerDTOList = new ArrayList<>();
         for (Customer customer : getAllCustomers) {
@@ -84,6 +85,9 @@ public class CustomerServiceIMPL implements CustomerService {
             customerDTOList.add(customerDTO);
         }
         return customerDTOList;
+        }else{
+            throw new RuntimeException("not found");
+        }
     }
 
     @Override
