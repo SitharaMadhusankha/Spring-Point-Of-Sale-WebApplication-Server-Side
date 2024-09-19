@@ -5,7 +5,10 @@ import com.example.pos.dto.CustomerDTO;
 
 import com.example.pos.dto.request.CustomerUpdateDTO;
 import com.example.pos.service.CustomerService;
+import com.example.pos.util.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -48,9 +51,12 @@ public class CustomerController {
     @GetMapping(
             path ="/get-all-customers"
     )
-    public List<CustomerDTO> getALlCustomer(){
+    public ResponseEntity<StandardResponse> getALlCustomer(){
         List<CustomerDTO> allCustomers = customerService.getAllCustomers();
-        return allCustomers ;
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200, "success", allCustomers),
+                HttpStatus.OK
+        );
     }
 
     @DeleteMapping(

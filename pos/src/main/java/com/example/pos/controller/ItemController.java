@@ -2,10 +2,16 @@ package com.example.pos.controller;
 
 import com.example.pos.dto.CustomerDTO;
 import com.example.pos.dto.request.ItemSaveRequestDTO;
+import com.example.pos.dto.respones.ItemGetResponesDTO;
 import com.example.pos.service.ItemService;
 import com.example.pos.service.impl.ItemServiceIMPL;
+import com.example.pos.util.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/item")
@@ -18,8 +24,34 @@ public class ItemController {
     @PostMapping(
             path = "/save"
     )
-    public String saveItem(@RequestBody ItemSaveRequestDTO itemSaveRequestDTO){
+    public ResponseEntity<StandardResponse> saveItem(@RequestBody ItemSaveRequestDTO itemSaveRequestDTO) {
         String message = itemService.saveItem(itemSaveRequestDTO);
-        return "saved";
+        //ResponseEntity<StandardResponse> response= new ResponseEntity<StandardResponse>(
+        //       new StandardResponse(201,"success",message), HttpStatus.CREATED
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(201, "success", message),
+                HttpStatus.CREATED
+        );
     }
+
+    @GetMapping(
+            path = "/get-by-name",
+            params = "name"
+    )
+    public List<ItemGetResponesDTO> getItemByNameAndStatus(@RequestParam String name) {
+        List<ItemGetResponesDTO> itemDTOS = itemService.getItemByNameAndStatus(name);
+        return itemDTOS;
+    }
+
+
+    @GetMapping(
+            path = "/get-by-name-with-mapstruct",
+            params = "name"
+    )
+    public List<ItemGetResponesDTO> getItemByNameAndStatusByMapstruct(@RequestParam String name) {
+        List<ItemGetResponesDTO> itemDTOS = itemService.getItemByNameAndStatusByMapstruct(name);
+        return itemDTOS;
+    }
+
 }

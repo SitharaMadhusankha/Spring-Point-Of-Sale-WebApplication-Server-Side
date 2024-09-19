@@ -1,13 +1,18 @@
 package com.example.pos.service.impl;
 
 import com.example.pos.dto.request.ItemSaveRequestDTO;
+import com.example.pos.dto.respones.ItemGetResponesDTO;
 import com.example.pos.entity.Item;
 import com.example.pos.repository.ItemRepo;
 import com.example.pos.service.ItemService;
+import com.example.pos.util.mappers.ItemMapper;
 import com.sun.jdi.request.DuplicateRequestException;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ItemServiceIMPL implements ItemService {
@@ -16,7 +21,8 @@ public class ItemServiceIMPL implements ItemService {
     private ItemRepo itemRepo;
     @Autowired
     private ModelMapper modelMapper;
-
+    @Autowired
+    private ItemMapper itemMapper;
     @Override
     public String saveItem(ItemSaveRequestDTO itemSaveRequestDTO) {
         Item item=modelMapper.map(itemSaveRequestDTO,Item.class);
@@ -26,6 +32,31 @@ public class ItemServiceIMPL implements ItemService {
             return item.getItemId()+"saved successfully";
         }
         throw new DuplicateRequestException("alredy Added");
+    }
+//use modal mapper
+    @Override
+    public List<ItemGetResponesDTO> getItemByNameAndStatus(String name) {
+
+        List<Item> items =itemRepo.findAllByItemNameEqualsAndActiveStateEquals(name,true);
+        if(items.size()>0){
+            List<ItemGetResponesDTO> itemGetResponesDTOS=modelMapper.map(items,new TypeToken<List<ItemGetResponesDTO>>(){}.getType());
+            return itemGetResponesDTOS;
+        }else{
+            throw new RuntimeException("Not Found");
+        }
+
+    }
+//use mapstruct
+    @Override
+    public List<ItemGetResponesDTO> getItemByNameAndStatusByMapstruct(String name) {
+        List<Item> items =itemRepo.findAllByItemNameEqualsAndActiveStateEquals(name,true);
+        if(items.size()>0){
+            List<ItemGetResponesDTO> itemGetResponesDTOS=itemMapper.entityListToDtoList(items);
+            return itemGetResponesDTOS;
+        }else{
+            throw new RuntimeException("Not Found");
+        }
+
     }
 
 
